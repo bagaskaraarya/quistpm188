@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
-class JajarGenjang extends StatefulWidget {
+class Tabung extends StatefulWidget {
+  const Tabung({super.key});
+
   @override
-  State<JajarGenjang> createState() => _JajarGenjangState();
+  State<Tabung> createState() => _TabungState();
 }
 
-class _JajarGenjangState extends State<JajarGenjang> {
-  double sisiSejajar = 0.0;
+class _TabungState extends State<Tabung> {
+  double radius = 0.0;
   double tinggi = 0.0;
-  double miring = 0.0;
-  double luas = 0.0;
+  double volume = 0.0;
   double keliling = 0.0;
-  String errorMessage = "";
+  String valid = "";
 
-  void hitungJajarGenjang() {
-    if (sisiSejajar > 0 && tinggi > 0 && miring > 0) {
+  void hitungTabung() {
+    if (radius > 0 && tinggi > 0) {
       setState(() {
-        luas = sisiSejajar * tinggi;
-        keliling = 2 * (sisiSejajar + miring);
-        errorMessage = "";
+        volume = pi * pow(radius, 2) * tinggi;
+        keliling = 2 * pi * radius;
+        valid = "";
       });
     } else {
       setState(() {
-        luas = 0;
+        volume = 0;
         keliling = 0;
-        errorMessage = "Masukkan angka yang valid untuk semua bidang!";
+        valid = "Masukkan angka yang valid!";
       });
     }
   }
@@ -35,7 +37,7 @@ class _JajarGenjangState extends State<JajarGenjang> {
       appBar: AppBar(
         backgroundColor: Colors.greenAccent,
         title: const Text(
-          'Luas & Keliling Jajar Genjang',
+          'Volume & Keliling Tabung',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -51,38 +53,33 @@ class _JajarGenjangState extends State<JajarGenjang> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  "Masukkan ukuran jajar genjang",
+                  "Masukkan ukuran tabung",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                _buildTextField("Sisi Sejajar", (value) {
-                  sisiSejajar = double.tryParse(value) ?? 0;
-                  hitungJajarGenjang();
+                _buildTextField("Jari-jari Alas", (value) {
+                  radius = double.tryParse(value) ?? 0;
+                  hitungTabung();
                 }),
                 const SizedBox(height: 10),
-                _buildTextField("Tinggi", (value) {
+                _buildTextField("Tinggi Tabung", (value) {
                   tinggi = double.tryParse(value) ?? 0;
-                  hitungJajarGenjang();
-                }),
-                const SizedBox(height: 10),
-                _buildTextField("Sisi Miring", (value) {
-                  miring = double.tryParse(value) ?? 0;
-                  hitungJajarGenjang();
+                  hitungTabung();
                 }),
                 const SizedBox(height: 20),
                 Text(
-                  'Luas: ${luas.toStringAsFixed(2)}',
+                  'Volume: ${volume.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
                 ),
                 Text(
                   'Keliling: ${keliling.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
                 ),
-                if (errorMessage.isNotEmpty)
+                if (valid.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
-                      errorMessage,
+                      valid,
                       style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                     ),
                   ),

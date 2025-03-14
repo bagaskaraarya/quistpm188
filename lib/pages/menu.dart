@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'hari.dart';
-import 'jajargenjang.dart';
-import 'limassegiempat.dart';
+import 'layanglayang.dart';
+import 'tabung.dart';
 import 'datadiri.dart';
 
 class MenuPage extends StatelessWidget {
@@ -26,8 +26,8 @@ class MenuPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            _buildMenuButton(context, 'Hitung Jajar Genjang', JajarGenjang()),
-            _buildMenuButton(context, 'Hitung Limas Segi Empat', LimasSegiEmpat()),
+            _buildMenuButton(context, 'Hitung Layang - layang', LayangLayang()),
+            _buildMenuButton(context, 'Hitung Tabung', Tabung()),
             _buildMenuButton(context, 'Hitung Hari', Hari()),
             _buildMenuButton(context, 'Data Diri', DataDiri()),
           ],

@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
-class LimasSegiEmpat extends StatefulWidget {
-  const LimasSegiEmpat({super.key});
-
+class LayangLayang extends StatefulWidget {
   @override
-  State<LimasSegiEmpat> createState() => _LimasSegiEmpatState();
+  State<LayangLayang> createState() => _LayangLayangState();
 }
 
-class _LimasSegiEmpatState extends State<LimasSegiEmpat> {
-  double sisiMiring = 0.0;
-  double sisiAlas = 0.0;
-  double volume = 0.0;
+class _LayangLayangState extends State<LayangLayang> {
+  double diagonal1 = 0.0;
+  double diagonal2 = 0.0;
+  double sisiA = 0.0;
+  double sisiB = 0.0;
+  double luas = 0.0;
   double keliling = 0.0;
-  String valid = "";
+  String errorMessage = "";
 
-  void hitungLimas() {
-    if (sisiMiring > 0 && sisiAlas > 0) {
+  void hitungLayangLayang() {
+    if (diagonal1 > 0 && diagonal2 > 0 && sisiA > 0 && sisiB > 0) {
       setState(() {
-        volume = (1 / 3) * sisiMiring * (sisiAlas * sisiAlas);
-        keliling = 4 * (sisiMiring + sisiAlas);
-        valid = "";
+        luas = 0.5 * diagonal1 * diagonal2;
+        keliling = 2 * (sisiA + sisiB);
+        errorMessage = "";
       });
     } else {
       setState(() {
-        volume = 0;
+        luas = 0;
         keliling = 0;
-        valid = "Masukkan angka yang valid!";
+        errorMessage = "Masukkan angka yang valid untuk semua bidang!";
       });
     }
   }
@@ -36,7 +36,7 @@ class _LimasSegiEmpatState extends State<LimasSegiEmpat> {
       appBar: AppBar(
         backgroundColor: Colors.greenAccent,
         title: const Text(
-          'Volume & Keliling Limas',
+          'Luas & Keliling Layang-Layang',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -52,33 +52,43 @@ class _LimasSegiEmpatState extends State<LimasSegiEmpat> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  "Masukkan panjang sisi",
+                  "Masukkan ukuran layang-layang",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                _buildTextField("Panjang Sisi Miring", (value) {
-                  sisiMiring = double.tryParse(value) ?? 0;
-                  hitungLimas();
+                _buildTextField("Diagonal 1", (value) {
+                  diagonal1 = double.tryParse(value) ?? 0;
+                  hitungLayangLayang();
                 }),
                 const SizedBox(height: 10),
-                _buildTextField("Panjang Sisi Alas", (value) {
-                  sisiAlas = double.tryParse(value) ?? 0;
-                  hitungLimas();
+                _buildTextField("Diagonal 2", (value) {
+                  diagonal2 = double.tryParse(value) ?? 0;
+                  hitungLayangLayang();
+                }),
+                const SizedBox(height: 10),
+                _buildTextField("Sisi A", (value) {
+                  sisiA = double.tryParse(value) ?? 0;
+                  hitungLayangLayang();
+                }),
+                const SizedBox(height: 10),
+                _buildTextField("Sisi B", (value) {
+                  sisiB = double.tryParse(value) ?? 0;
+                  hitungLayangLayang();
                 }),
                 const SizedBox(height: 20),
                 Text(
-                  'Volume: ${volume.toStringAsFixed(2)}',
+                  'Luas: ${luas.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
                 ),
                 Text(
                   'Keliling: ${keliling.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
                 ),
-                if (valid.isNotEmpty)
+                if (errorMessage.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
-                      valid,
+                      errorMessage,
                       style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                     ),
                   ),
